@@ -1,0 +1,232 @@
+-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+-- --------------------------------------------------------------------------------
+-- Tool Version: Vivado v.2022.2 (win64) Build 3671981 Fri Oct 14 05:00:03 MDT 2022
+-- Date        : Wed Aug 12 15:54:59 2026
+-- Host        : USER-20240108IG running 64-bit major release  (build 9200)
+-- Command     : write_vhdl -force -mode funcsim
+--               e:/Data/Project/VIVADO_Project/2022_2/AX7010/Empty2.4/Empty.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl
+-- Design      : clk_wiz_0
+-- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
+--               synthesized. This netlist cannot be used for SDF annotated simulation.
+-- Device      : xc7z010clg400-2
+-- --------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+library UNISIM;
+use UNISIM.VCOMPONENTS.ALL;
+entity clk_wiz_0_clk_wiz is
+  port (
+    o_clk_100 : out STD_LOGIC;
+    o_clk_125 : out STD_LOGIC;
+    o_clk_200 : out STD_LOGIC;
+    o_clk_250 : out STD_LOGIC;
+    o_clk_20 : out STD_LOGIC;
+    resetn : in STD_LOGIC;
+    i_clk_50 : in STD_LOGIC
+  );
+end clk_wiz_0_clk_wiz;
+
+architecture STRUCTURE of clk_wiz_0_clk_wiz is
+  signal clkfbout_buf_clk_wiz_0 : STD_LOGIC;
+  signal clkfbout_clk_wiz_0 : STD_LOGIC;
+  signal i_clk_50_clk_wiz_0 : STD_LOGIC;
+  signal o_clk_100_clk_wiz_0 : STD_LOGIC;
+  signal o_clk_125_clk_wiz_0 : STD_LOGIC;
+  signal o_clk_200_clk_wiz_0 : STD_LOGIC;
+  signal o_clk_20_clk_wiz_0 : STD_LOGIC;
+  signal o_clk_250_clk_wiz_0 : STD_LOGIC;
+  signal reset_high : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT2B_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_DRDY_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_LOCKED_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_PSDONE_UNCONNECTED : STD_LOGIC;
+  signal NLW_mmcm_adv_inst_DO_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
+  attribute BOX_TYPE : string;
+  attribute BOX_TYPE of clkf_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkin1_ibufg : label is "PRIMITIVE";
+  attribute CAPACITANCE : string;
+  attribute CAPACITANCE of clkin1_ibufg : label is "DONT_CARE";
+  attribute IBUF_DELAY_VALUE : string;
+  attribute IBUF_DELAY_VALUE of clkin1_ibufg : label is "0";
+  attribute IFD_DELAY_VALUE : string;
+  attribute IFD_DELAY_VALUE of clkin1_ibufg : label is "AUTO";
+  attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout3_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout4_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout5_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of mmcm_adv_inst : label is "PRIMITIVE";
+begin
+clkf_buf: unisim.vcomponents.BUFG
+     port map (
+      I => clkfbout_clk_wiz_0,
+      O => clkfbout_buf_clk_wiz_0
+    );
+clkin1_ibufg: unisim.vcomponents.IBUF
+    generic map(
+      CCIO_EN => "TRUE",
+      IOSTANDARD => "DEFAULT"
+    )
+        port map (
+      I => i_clk_50,
+      O => i_clk_50_clk_wiz_0
+    );
+clkout1_buf: unisim.vcomponents.BUFG
+     port map (
+      I => o_clk_100_clk_wiz_0,
+      O => o_clk_100
+    );
+clkout2_buf: unisim.vcomponents.BUFG
+     port map (
+      I => o_clk_125_clk_wiz_0,
+      O => o_clk_125
+    );
+clkout3_buf: unisim.vcomponents.BUFG
+     port map (
+      I => o_clk_200_clk_wiz_0,
+      O => o_clk_200
+    );
+clkout4_buf: unisim.vcomponents.BUFG
+     port map (
+      I => o_clk_250_clk_wiz_0,
+      O => o_clk_250
+    );
+clkout5_buf: unisim.vcomponents.BUFG
+     port map (
+      I => o_clk_20_clk_wiz_0,
+      O => o_clk_20
+    );
+mmcm_adv_inst: unisim.vcomponents.MMCME2_ADV
+    generic map(
+      BANDWIDTH => "OPTIMIZED",
+      CLKFBOUT_MULT_F => 20.000000,
+      CLKFBOUT_PHASE => 0.000000,
+      CLKFBOUT_USE_FINE_PS => false,
+      CLKIN1_PERIOD => 20.000000,
+      CLKIN2_PERIOD => 0.000000,
+      CLKOUT0_DIVIDE_F => 10.000000,
+      CLKOUT0_DUTY_CYCLE => 0.500000,
+      CLKOUT0_PHASE => 0.000000,
+      CLKOUT0_USE_FINE_PS => false,
+      CLKOUT1_DIVIDE => 8,
+      CLKOUT1_DUTY_CYCLE => 0.500000,
+      CLKOUT1_PHASE => 0.000000,
+      CLKOUT1_USE_FINE_PS => false,
+      CLKOUT2_DIVIDE => 5,
+      CLKOUT2_DUTY_CYCLE => 0.500000,
+      CLKOUT2_PHASE => 0.000000,
+      CLKOUT2_USE_FINE_PS => false,
+      CLKOUT3_DIVIDE => 4,
+      CLKOUT3_DUTY_CYCLE => 0.500000,
+      CLKOUT3_PHASE => 0.000000,
+      CLKOUT3_USE_FINE_PS => false,
+      CLKOUT4_CASCADE => false,
+      CLKOUT4_DIVIDE => 50,
+      CLKOUT4_DUTY_CYCLE => 0.500000,
+      CLKOUT4_PHASE => 0.000000,
+      CLKOUT4_USE_FINE_PS => false,
+      CLKOUT5_DIVIDE => 1,
+      CLKOUT5_DUTY_CYCLE => 0.500000,
+      CLKOUT5_PHASE => 0.000000,
+      CLKOUT5_USE_FINE_PS => false,
+      CLKOUT6_DIVIDE => 1,
+      CLKOUT6_DUTY_CYCLE => 0.500000,
+      CLKOUT6_PHASE => 0.000000,
+      CLKOUT6_USE_FINE_PS => false,
+      COMPENSATION => "ZHOLD",
+      DIVCLK_DIVIDE => 1,
+      IS_CLKINSEL_INVERTED => '0',
+      IS_PSEN_INVERTED => '0',
+      IS_PSINCDEC_INVERTED => '0',
+      IS_PWRDWN_INVERTED => '0',
+      IS_RST_INVERTED => '0',
+      REF_JITTER1 => 0.010000,
+      REF_JITTER2 => 0.010000,
+      SS_EN => "FALSE",
+      SS_MODE => "CENTER_HIGH",
+      SS_MOD_PERIOD => 10000,
+      STARTUP_WAIT => false
+    )
+        port map (
+      CLKFBIN => clkfbout_buf_clk_wiz_0,
+      CLKFBOUT => clkfbout_clk_wiz_0,
+      CLKFBOUTB => NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED,
+      CLKFBSTOPPED => NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED,
+      CLKIN1 => i_clk_50_clk_wiz_0,
+      CLKIN2 => '0',
+      CLKINSEL => '1',
+      CLKINSTOPPED => NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED,
+      CLKOUT0 => o_clk_100_clk_wiz_0,
+      CLKOUT0B => NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED,
+      CLKOUT1 => o_clk_125_clk_wiz_0,
+      CLKOUT1B => NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED,
+      CLKOUT2 => o_clk_200_clk_wiz_0,
+      CLKOUT2B => NLW_mmcm_adv_inst_CLKOUT2B_UNCONNECTED,
+      CLKOUT3 => o_clk_250_clk_wiz_0,
+      CLKOUT3B => NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED,
+      CLKOUT4 => o_clk_20_clk_wiz_0,
+      CLKOUT5 => NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED,
+      CLKOUT6 => NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED,
+      DADDR(6 downto 0) => B"0000000",
+      DCLK => '0',
+      DEN => '0',
+      DI(15 downto 0) => B"0000000000000000",
+      DO(15 downto 0) => NLW_mmcm_adv_inst_DO_UNCONNECTED(15 downto 0),
+      DRDY => NLW_mmcm_adv_inst_DRDY_UNCONNECTED,
+      DWE => '0',
+      LOCKED => NLW_mmcm_adv_inst_LOCKED_UNCONNECTED,
+      PSCLK => '0',
+      PSDONE => NLW_mmcm_adv_inst_PSDONE_UNCONNECTED,
+      PSEN => '0',
+      PSINCDEC => '0',
+      PWRDWN => '0',
+      RST => reset_high
+    );
+mmcm_adv_inst_i_1: unisim.vcomponents.LUT1
+    generic map(
+      INIT => X"1"
+    )
+        port map (
+      I0 => resetn,
+      O => reset_high
+    );
+end STRUCTURE;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+library UNISIM;
+use UNISIM.VCOMPONENTS.ALL;
+entity clk_wiz_0 is
+  port (
+    o_clk_100 : out STD_LOGIC;
+    o_clk_125 : out STD_LOGIC;
+    o_clk_200 : out STD_LOGIC;
+    o_clk_250 : out STD_LOGIC;
+    o_clk_20 : out STD_LOGIC;
+    resetn : in STD_LOGIC;
+    i_clk_50 : in STD_LOGIC
+  );
+  attribute NotValidForBitStream : boolean;
+  attribute NotValidForBitStream of clk_wiz_0 : entity is true;
+end clk_wiz_0;
+
+architecture STRUCTURE of clk_wiz_0 is
+begin
+inst: entity work.clk_wiz_0_clk_wiz
+     port map (
+      i_clk_50 => i_clk_50,
+      o_clk_100 => o_clk_100,
+      o_clk_125 => o_clk_125,
+      o_clk_20 => o_clk_20,
+      o_clk_200 => o_clk_200,
+      o_clk_250 => o_clk_250,
+      resetn => resetn
+    );
+end STRUCTURE;
