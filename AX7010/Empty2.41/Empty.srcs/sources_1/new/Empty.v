@@ -154,7 +154,7 @@ end
 /*** DAC Part ***/
 assign o_DA_CLK = clk_100;
 
-always @(posedge clk_100 or negedge sys_rst_n) begin
+always @(negedge clk_100 or negedge sys_rst_n) begin
     if(!sys_rst_n) begin
         o_DA_DATA_A <= 0;
         o_DA_DATA_B <= 0;
@@ -171,6 +171,7 @@ always @(posedge clk_100 or negedge sys_rst_n) begin
     end
 end
 
+/*** AXI packer ***/
 adc_axis_packer adc_axis_packer_inst
 (
     .i_clk(clk_100),
