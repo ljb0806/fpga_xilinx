@@ -1,0 +1,51 @@
+# ==================== Vivado 生成文件 ====================
+Empty.cache/
+Empty.gen/
+Empty.runs/
+Empty.hw/
+Empty.ip_user_files/
+Empty.sim/
+*.jou
+*.log
+*.str
+*.Xil/
+
+# 综合实现临时文件
+*.dcp
+*.rpt
+
+# ==================== Vitis 生成文件 ====================
+Vitis/.metadata/
+Vitis/.analytics
+Vitis/.analytics/
+Vitis/IDE.log
+Vitis/**/Debug/
+Vitis/**/Release/
+Vitis/**/_ide/
+Vitis/**/logs/
+Vitis/**/RemoteSystemsTempFiles/
+
+# 平台生成
+Vitis/*/export/
+Vitis/*/hw/
+Vitis/*/_platform/
+Vitis/*/resources/
+Vitis/*/ps7_cortexa9_0/
+Vitis/*/zynq_fsbl/
+Vitis/*/tempdsa/
+
+# ==================== 编译产物 ====================
+*.o
+*.d
+*.elf
+*.bit
+*.bin
+*.ltx
+*.xsa
+*.prm
+
+# ==================== 通用 ====================
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
