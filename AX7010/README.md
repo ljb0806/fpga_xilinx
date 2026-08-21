@@ -8,7 +8,8 @@ PL 端完成 ADC 采样与 AXI-Stream 打包，经 AXI DMA 搬运至 DDR；PS �
 
 | 路径 | 说明 |
 |---|---|
-| `Empty2.4/` | 完整 Vivado 2022.2 + Vitis 2022.2 工程 |
+| `Empty2.41/` | 当前版本：真实 ADC 数据采集，100 MHz 采样（AD/DA/AXI-Stream 同源） |
+| `Empty2.4/` | 上一版本：DDS 作测试源，125 MHz 采样 |
 
 ## 环境
 
@@ -22,21 +23,22 @@ PL 端完成 ADC 采样与 AXI-Stream 打包，经 AXI DMA 搬运至 DDR；PS �
 | 模块 | 说明 |
 |---|---|
 | Block Design `Hardware` | Zynq PS7 + AXI DMA + AXI GPIO + AXI-Stream FIFO + SmartConnect |
-| `clk_wiz_0` | 50 MHz 板载时钟 → 100 / 125 / 200 / 250 / 20 MHz |
-| ADC 采集 | 两路 16-bit ADC（A/B），DCO 上升沿锁存，`o_AD_CLK = 125 MHz` |
-| `DDS.v` + `SINROM_4096_16` | 48-bit 相位累加器 + 4096×16 正弦查找表（DDS 信号源） |
+| `clk_wiz_0` | 50 MHz 板载时钟 → 100 / 125 / 200 / 250 / 20 MHz（当前仅用 100 MHz） |
+| ADC 采集 | 两路 16-bit ADC（A/B），`clk_100` 上升沿锁存，`o_AD_CLK = 100 MHz` |
+| 数据转换 | `{~data[15], data[14:0]}` 偏移二进制 → 补码，供 packer / DAC 使用 |
+| DAC 回环 | `o_DA_CLK = 100 MHz`（下降沿输出），`wave_sel` 切换原码 / 补码输出 |
 | `adc_axis_packer` | 两路 16-bit 拼成 32-bit AXI-Stream，包长 16384 |
-| `vio_0` / `ila_0` | 在线调试（波形选择 / 幅度 / 频率步进 / 逻辑分析） |
+| `vio_0` | 在线调试（`wave_sel` DAC 波形选择；幅度 / 频率步进为保留项） |
 
 ### 数据通路
 
 ```
-ADC（当前用 DDS 输出作测试源）→ adc_axis_packer → S_AXIS → axis_data_fifo → AXI DMA → DDR
+ADC（A/B 两路，偏移二进制 → 补码）→ adc_axis_packer → S_AXIS → axis_data_fifo → AXI DMA → DDR
 ```
 
-> 当前 `adc_axis_packer` 的输入接的是 DDS 输出（`r_dds_out`）作为测试源；
-> 实际 ADC 数据 `r_AD_DATA_A/B` 仅接入 `ila_0` 观察。
-> 顶层中 DAC 输出与 `mult_gen_0` 幅度调制部分被注释，可按需启用。
+> 相较 `Empty2.4`：去掉了 DDS 测试源、`ila_0` 及注释掉的 `mult_gen_0` 幅度调制，
+> 改为采集真实 ADC 数据；AD/DA 与 AXI-Stream 时钟由 125 MHz 统一改为 100 MHz。
+> `DDS.v` / `SINROM_4096_16` 保留在工程中但未例化，可按需作测试源。
 
 ## PS 端（Vitis 工程）
 
@@ -45,9 +47,11 @@ ADC（当前用 DDS 输出作测试源）→ adc_axis_packer → S_AXIS → axis
 
 主循环：**DMA 采样 → 10000 点实数 FFT（kiss_fftr）→ 打印频谱**。
 
+- 串口：`UART1`（MIO 48/49）。`UART_Init()` 中 `XUartPs_SetBaudRate(&uart, 921600)` 将波特率由默认 115200 改为 **921600**。
+
 | 参数 | 值 |
 |---|---|
-| 采样率 FS | 20 MHz |
+| 采样率 FS | 100 MHz |
 | FFT 点数 | 10000 |
 | 每包点数 PKT | 16384 |
 | 采集缓存地址 | 0x0A000000（DDR） |
