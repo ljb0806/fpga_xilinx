@@ -210,124 +210,28 @@ FM_Generate_inst
     .o_fm_out_signed(o_dds_out_signed)
 );
 
-/*** Cordic Part ***/
-reg [47:0] phase_acc = 0;
+/*** IQ Solve Part ***/
+wire signed [15:0] I;
+wire signed [15:0] Q;
 
-always @(posedge clk_20 or negedge sys_rst_n) begin
-    if(!sys_rst_n) begin
-        phase_acc <= 0;
-    end
-    else begin
-        phase_acc <= phase_acc + 48'd28147497671066;
-    end
-end
-
-wire signed [15:0] o_cos;
-wire signed [15:0] o_sin;
-Cordic #
+IQ_Solve#
 (
-    .DOUT_WIDTH(16)
+    .DWIDTH(16),
+    .PWIDTH(48),
+    .FIR_WIDTH(32),
+    .FIR_SHIFT(15),
+    .CLK_FREQ(20_000_000),
+    .LO_FREQ(2_000_000)
 )
-Cordic_inst
+IQ_Solve_inst
 (
     .i_clk(clk_20),
     .i_rst_n(sys_rst_n),
+    .i_data(o_dds_out_signed),
 
-    .i_phase(phase_acc),
-    .o_sin(o_sin),
-    .o_cos(o_cos)
+    .o_I(I),
+    .o_Q(Q)
 );
-
-/*** mul & lowpass ***/
-localparam signed [15:0] IQ_MAX = 16'sh7fff;
-localparam signed [15:0] IQ_MIN = 16'sh8000;
-
-reg signed [31:0] I_mul;
-reg signed [31:0] Q_mul;
-
-always @(posedge clk_20 or negedge sys_rst_n) begin
-    if(!sys_rst_n) begin
-        I_mul <= 32'sd0;
-        Q_mul <= 32'sd0;
-    end
-    else begin
-        I_mul <= $signed(o_dds_out_signed) * $signed(o_cos);
-        Q_mul <= $signed(o_dds_out_signed) * $signed(o_sin);
-    end
-end
-
-reg signed [15:0] I_fir_in;
-reg signed [15:0] Q_fir_in;
-
-always @(posedge clk_20 or negedge sys_rst_n) begin
-    if(!sys_rst_n) begin
-        I_fir_in <= 16'sd0;
-        Q_fir_in <= 16'sd0;
-    end
-    else begin
-        if(!I_mul[31] && I_mul[30])
-            I_fir_in <= IQ_MAX;
-        else if(I_mul[31] && !I_mul[30])
-            I_fir_in <= IQ_MIN;
-        else
-            I_fir_in <= I_mul[30:15];
-
-        if(!Q_mul[31] && Q_mul[30])
-            Q_fir_in <= IQ_MAX;
-        else if(Q_mul[31] && !Q_mul[30])
-            Q_fir_in <= IQ_MIN;
-        else
-            Q_fir_in <= Q_mul[30:15];
-    end
-end
-
-wire signed [31:0] I_fir_raw;
-wire signed [31:0] Q_fir_raw;
-
-fir_compiler_0 I_fir_inst
-(
-    .aclk(clk_20),
-    .s_axis_data_tvalid(1'b1),
-    .s_axis_data_tready(),
-    .s_axis_data_tdata(I_fir_in),
-    .m_axis_data_tvalid(),
-    .m_axis_data_tdata(I_fir_raw)
-);
-
-fir_compiler_0 Q_fir_inst
-(
-    .aclk(clk_20),
-    .s_axis_data_tvalid(1'b1),
-    .s_axis_data_tready(),
-    .s_axis_data_tdata(Q_fir_in),
-    .m_axis_data_tvalid(),
-    .m_axis_data_tdata(Q_fir_raw)
-);
-
-reg signed [15:0] I;
-reg signed [15:0] Q;
-
-always @(posedge clk_20 or negedge sys_rst_n) begin
-    if(!sys_rst_n) begin
-        I <= 16'sd0;
-        Q <= 16'sd0;
-    end
-    else begin
-        if(!I_fir_raw[31] && I_fir_raw[30])
-            I <= IQ_MAX;
-        else if(I_fir_raw[31] && !I_fir_raw[30])
-            I <= IQ_MIN;
-        else
-            I <= I_fir_raw[30:15];
-
-        if(!Q_fir_raw[31] && Q_fir_raw[30])
-            Q <= IQ_MAX;
-        else if(Q_fir_raw[31] && !Q_fir_raw[30])
-            Q <= IQ_MIN;
-        else
-            Q <= Q_fir_raw[30:15];
-    end
-end
 
 /*** Cordic_Atan2 Part ***/
 wire signed [47:0] o_phase;
@@ -350,10 +254,6 @@ Cordic_Atan2_inst
     .o_phase_mag(o_phase_mag)
 );
 
-/*** Phase difference Part ***/
-// The 48-bit phase uses modulo-2^48 circular coding. A 48-bit subtraction
-// therefore automatically removes the +pi/-pi wrap discontinuity, provided
-// that the true phase change between adjacent samples is less than pi.
 reg signed [47:0] phase_prev;
 reg signed [47:0] phase_diff;
 
