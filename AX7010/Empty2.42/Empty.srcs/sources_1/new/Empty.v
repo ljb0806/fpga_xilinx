@@ -70,7 +70,7 @@ clk_wiz_0 clk_wiz_0_inst
     .o_clk_250(clk_250),
     .o_clk_20(clk_20)
 );
-
+/*
 Hardware_wrapper u_Hardware_wrapper
 (
     .DDR_addr                          (DDR_addr                  ),
@@ -105,7 +105,7 @@ Hardware_wrapper u_Hardware_wrapper
     .S_AXIS_tready                     (S_AXIS_tready             ),
     .S_AXIS_tvalid                     (S_AXIS_tvalid             ) 
 );
-
+*/
 
 
 /*** vio Part ***/
@@ -189,35 +189,25 @@ adc_axis_packer adc_axis_packer_inst
 );
 
 /*** DDS Part ***/
-wire [15:0] mod_out;
-wire signed [15:0] mod_out_signed;
-
-DDS Mod_DDS_inst (
-    .i_clk            (clk_20),
-    .i_rst_n          (sys_rst_n),
-    .i_STEP           (48'd154811237191),
-    .o_dds_out        (mod_out),
-    .o_dds_out_signed (mod_out_signed)
-);
-
-wire signed [47:0] max_f_ctrl = 48'd703687441777;
-reg signed [63:0] mod_ctrl;
-always @(posedge clk_20) begin
-    mod_ctrl <= $signed(max_f_ctrl) * $signed(mod_out_signed);
-end
-wire signed [47:0] mod_ctrl_48 = $signed(mod_ctrl[63:16]) + $signed(48'd28147497671066);
-
 wire [15:0] o_dds_out;
 wire signed [15:0] o_dds_out_signed;
-DDS DDS_inst
+
+FM_Generate#
+(
+    .DWIDTH(16),
+    .PWIDTH(48),
+    .CLK_FREQ(20_000_000),
+    .CARRIER_FREQ(2_000_000),
+    .MAX_FREQ_DEV(50_000),
+    .MOD_FREQ(50_000)
+)
+FM_Generate_inst
 (
     .i_clk(clk_20),
     .i_rst_n(sys_rst_n),
 
-    .i_STEP(mod_ctrl_48),
-
-    .o_dds_out(o_dds_out),
-    .o_dds_out_signed(o_dds_out_signed)
+    .o_fm_out(o_dds_out),
+    .o_fm_out_signed(o_dds_out_signed)
 );
 
 /*** Cordic Part ***/

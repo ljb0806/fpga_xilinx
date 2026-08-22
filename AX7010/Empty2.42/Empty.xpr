@@ -57,7 +57,7 @@
     <Option Name="IPUserFilesDir" Val="$PIPUSERFILESDIR"/>
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="77"/>
+    <Option Name="WTXSimLaunchSim" Val="79"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -88,34 +88,6 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/bd/Hardware/Hardware.bd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_gpio_1_0/Hardware_axi_gpio_1_0.xci">
-          <Proxy FileSetName="Hardware_axi_gpio_1_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_dma_0_1/Hardware_axi_dma_0_1.xci">
-          <Proxy FileSetName="Hardware_axi_dma_0_1"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_proc_sys_reset_0_1/Hardware_proc_sys_reset_0_1.xci">
-          <Proxy FileSetName="Hardware_proc_sys_reset_0_1"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_processing_system7_0_0/Hardware_processing_system7_0_0.xci">
-          <Proxy FileSetName="Hardware_processing_system7_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axis_data_fifo_0_2/Hardware_axis_data_fifo_0_2.xci">
-          <Proxy FileSetName="Hardware_axis_data_fifo_0_2"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_smartconnect_0_0/Hardware_smartconnect_0_0.xci">
-          <Proxy FileSetName="Hardware_smartconnect_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_gpio_0_0/Hardware_axi_gpio_0_0.xci">
-          <Proxy FileSetName="Hardware_axi_gpio_0_0"/>
-        </CompFileExtendedInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/new/Cordic.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -137,7 +109,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PGENDIR/sources_1/bd/Hardware/hdl/Hardware_wrapper.v">
+      <File Path="$PSRCDIR/sources_1/new/FM_Generate.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -153,6 +125,43 @@
       </File>
       <File Path="$PSRCDIR/sources_1/new/Empty.v">
         <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/bd/Hardware/Hardware.bd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_dma_0_1/Hardware_axi_dma_0_1.xci">
+          <Proxy FileSetName="Hardware_axi_dma_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_processing_system7_0_0/Hardware_processing_system7_0_0.xci">
+          <Proxy FileSetName="Hardware_processing_system7_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axis_data_fifo_0_2/Hardware_axis_data_fifo_0_2.xci">
+          <Proxy FileSetName="Hardware_axis_data_fifo_0_2"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_proc_sys_reset_0_1/Hardware_proc_sys_reset_0_1.xci">
+          <Proxy FileSetName="Hardware_proc_sys_reset_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_smartconnect_0_0/Hardware_smartconnect_0_0.xci">
+          <Proxy FileSetName="Hardware_smartconnect_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_gpio_0_0/Hardware_axi_gpio_0_0.xci">
+          <Proxy FileSetName="Hardware_axi_gpio_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="Hardware.bd" FileRelPathName="ip/Hardware_axi_gpio_1_0/Hardware_axi_gpio_1_0.xci">
+          <Proxy FileSetName="Hardware_axi_gpio_1_0"/>
+        </CompFileExtendedInfo>
+      </File>
+      <File Path="$PGENDIR/sources_1/bd/Hardware/hdl/Hardware_wrapper.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -553,9 +562,7 @@
     </Run>
     <Run Id="fir_compiler_0_synth_1" Type="Ft3:Synth" SrcSet="fir_compiler_0" Part="xc7z010clg400-2" ConstrsSet="fir_compiler_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/fir_compiler_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/fir_compiler_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/fir_compiler_0_synth_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -803,9 +810,7 @@
     </Run>
     <Run Id="fir_compiler_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-2" ConstrsSet="fir_compiler_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="fir_compiler_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/fir_compiler_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/fir_compiler_0_impl_1">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2022"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
